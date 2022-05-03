@@ -28,7 +28,6 @@ router.route('/addProductOffer').post(async (req, res) => {
  */
 router.route('/getAllProductOffers').get(async (req, res) => {
     await ProductOfferModel.find({})
-        .populate('product', 'productName')
         .then(data => {
             res.status(200).send({ data: data });
         }).catch(error => {
@@ -93,21 +92,6 @@ router.route("/updateProductOffer/:id").put(async (req, res) => {
 router.route('/deleteProductOffer/:id').delete(async (req, res) => {
     if (req.params && req.params.id) {
         await ProductOfferModel.findByIdAndDelete(req.params.id)
-            .then(data => {
-                res.status(200).send({ data: data });
-            }).catch(error => {
-                res.status(500).send({ error: error });
-            })
-    }
-});
-
-/**
- * API DESC      - Get the Product Offer status by using product ID
- * API           - http://localhost:3001/productOffer/getProductOfferByproductId/<PRODUCTID>
- */
-router.route('/getProductOfferByproductId/:id').get(async (req, res) => {
-    if (req.params && req.params.id) {
-        await ProductOfferModel.find({ product: req.params.id })
             .then(data => {
                 res.status(200).send({ data: data });
             }).catch(error => {
